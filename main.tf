@@ -12,7 +12,7 @@ resource "aws_launch_template" "web_server_as" {
    
 
 
-  resource "aws_elb" "web_server_lb"{
+  resource "aws_lb" "web_server_lb"{
      name = "web-server-lb"
      security_groups = [aws_security_group.web_server.id]
      subnets = ["subnet-0a903910750d22999", "subnet-0450255907d464637"]
@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "web_server_asg" {
     max_size             = 3
     desired_capacity     = 2
     health_check_type    = "EC2"
-    load_balancers       = [aws_elb.web_server_lb.name]
+    load_balancers       = [aws_lb.web_server_lb.name]
     availability_zones    = ["us-east-1a", "us-east-1b"] 
     launch_template {
         id      = aws_launch_template.web_server_as.id
